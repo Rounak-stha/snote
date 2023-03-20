@@ -7,10 +7,7 @@ interface Props {
 
 function BackButton({ onClick }: Props) {
     return (
-        <button
-            onClick={onClick}
-            className='flex items-center rounded-full p-2 bold h-10 w-10 bg-slate-900'
-        >
+        <button onClick={onClick} className='flex items-center rounded-full p-2 bold h-10 w-10 hover:bg-[#1c1e22]'>
             <BackArrow />
         </button>
     );

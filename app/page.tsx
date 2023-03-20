@@ -1,26 +1,39 @@
 'use client';
 
-import HTMLPreview from '@/components/HTMLPreview';
-import { getAllSnotes, SnoteData } from '@/lib/idb';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Notes from './notes/Notes';
+import NoteCreateNavBtn from '@/components/NoteCreateNavBtn';
+
+export type ArchiveState = 'unarchived' | 'archived';
 
 export default function Home() {
-    const [snotes, setSnotes] = useState<SnoteData[]>();
-    useEffect(() => {
-        (async function () {
-            const allSnotes = await getAllSnotes();
-            setSnotes(allSnotes);
-        })();
-    }, []);
+    const [archiveState, setArchiveState] = useState<ArchiveState>('unarchived');
     return (
         <>
-            <h1 className=''>All Notes</h1>
-            {snotes &&
-                snotes.map((snote) => (
-                    <div key={snote.id} className='p-4 my-2'>
-                        <HTMLPreview mdText={snote.md_note} />
-                    </div>
-                ))}
+            <div className='flex items-center'>
+                <div className='flex gap-6 flex-1 text-xl'>
+                    <h1
+                        className={`cursor-pointer py-1 ${
+                            archiveState == 'unarchived' && 'border-b-[3px] border-blue-500'
+                        }`}
+                        onClick={() => setArchiveState('unarchived')}
+                    >
+                        All
+                    </h1>
+                    <h1
+                        className={`cursor-pointer py-1 ${
+                            archiveState == 'archived' && 'border-b-[3px] border-blue-500'
+                        }`}
+                        onClick={() => setArchiveState('archived')}
+                    >
+                        Archived
+                    </h1>
+                </div>
+                <NoteCreateNavBtn />
+            </div>
+            <div className='my-6 [&>:first-child]:mt-0'>
+                <Notes archiveState={archiveState} />
+            </div>
         </>
     );
 }

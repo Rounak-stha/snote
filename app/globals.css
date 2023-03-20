@@ -2,13 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-}
-
 html,
 body {
-    width: 100vw;
-    height: 100vh;
     background-color: #121416;
     letter-spacing: 1px;
 }

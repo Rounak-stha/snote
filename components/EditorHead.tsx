@@ -8,16 +8,14 @@ interface Props {
 const EditorHead: React.FC<Props> = ({ setViewState, viewState }) => {
     return (
         <>
-            <div className='px-2 py-1 rounded-md bg-slate-800 w-fit'>
+            <div className='px-2 pt-[5px] pb-[6px] rounded-md bg-[#1c1e22] w-fit'>
                 <span
                     onClick={() => {
                         console.log('Changing View to Editor');
                         setViewState('editor');
                     }}
                     className={`inline-block rounded-md px-6 py-1 cursor-pointer ${
-                        viewState !== 'editor'
-                            ? 'text-gray-400'
-                            : 'bg-slate-900'
+                        viewState !== 'editor' ? 'text-gray-400' : 'bg-[#25292d]'
                     }`}
                 >
                     Edit
@@ -25,9 +23,7 @@ const EditorHead: React.FC<Props> = ({ setViewState, viewState }) => {
                 <span
                     onClick={() => setViewState('preview')}
                     className={`inline-block rounded-md px-6 py-1 cursor-pointer ${
-                        viewState !== 'preview'
-                            ? 'text-gray-500'
-                            : 'bg-slate-900'
+                        viewState !== 'preview' ? 'text-gray-500' : 'bg-[#25292d]'
                     }`}
                 >
                     Preview

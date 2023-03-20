@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function AddNote() {
     return (
         <>
-            <div>
+            <div className='mb-4'>
                 <Link href='/'>
                     <BackButton />
                 </Link>

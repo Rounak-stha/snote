@@ -1,35 +1,55 @@
 'use client';
 
 import useMDEditor from '@/editor/Editor';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from './Button';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import EditorHead from './EditorHead';
-import HTMLPreview from './HTMLPreview';
-import { createSnote } from '@/lib/idb';
+import { createSnote, getSnoteById, updateSnote } from '@/lib/idb';
+import EditorAndPreview from './EditorAndPreview';
 
-const initialDoc = `# Heading 1
-## Heading 2
-### Heading 2
-
-Body Text
-
-\`\`\`js
-const a = 1;
-\`\`\`
-`;
-
-async function handleNoteCreation(doc: string): Promise<void> {
-    await createSnote(doc);
-}
+// Types
+import type { SnoteData } from '@/lib/idb';
+import IconLabelButton from './IconLabelButton';
+import NoteIcon from '@/Icons/NoteIcon';
 
 export type ViewState = 'editor' | 'preview';
 
 export default function Editor() {
     const [viewState, setViewState] = useState<ViewState>('editor');
     const [doc, setDoc] = useState('');
+    const [refContainer, Editor] = useMDEditor(setDoc);
+    const [currSnote, setCurrSnote] = useState<SnoteData>();
     const router = useRouter();
-    const [refContainer, Editor] = useMDEditor(setDoc, initialDoc);
+    const getSearchParams = useSearchParams().get;
+
+    let docId = 0;
+
+    if (getSearchParams('edit')) docId = parseInt(getSearchParams('edit') as string);
+
+    // Auto Focus Editor
+    // https://discuss.codemirror.net/t/how-to-autofocus-in-cm6/2966/2
+    useEffect(() => {
+        setTimeout(() => {
+            Editor?.focus();
+        }, 500);
+    }, [Editor]);
+
+    useEffect(() => {
+        if (!docId) return;
+        (async () => {
+            const snote = await getSnoteById(docId);
+            if (!snote) return;
+            // Editor Changes updates the { doc } calling { setDoc }
+            setCurrSnote(snote);
+            Editor?.dispatch({
+                changes: {
+                    from: 0,
+                    to: doc.length,
+                    insert: snote.md_note
+                }
+            });
+        })();
+    }, [docId, Editor]);
 
     return (
         <div>
@@ -38,20 +58,23 @@ export default function Editor() {
                     <EditorHead setViewState={setViewState} viewState={viewState} />
                 </div>
                 <div className=''>
-                    <Button
+                    <IconLabelButton
+                        Icon={NoteIcon}
+                        disabled={!doc}
                         onClick={async () => {
-                            createSnote(doc);
+                            if (!doc) return;
+                            if (docId) updateSnote(docId, doc);
+                            else createSnote(doc);
                             router.push('/');
                         }}
                         className='py-2 ml-auto'
                     >
-                        Create
-                    </Button>
+                        {docId ? 'Update' : 'Create'}
+                    </IconLabelButton>
                 </div>
             </div>
             <div className='my-4'>
-                <div className={`${viewState !== 'editor' && 'hidden'} h-full`} ref={refContainer}></div>
-                {viewState === 'preview' && <HTMLPreview mdText={doc} />}
+                <EditorAndPreview refContainer={refContainer} doc={doc} viewState={viewState} />
             </div>
         </div>
     );
