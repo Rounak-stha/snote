@@ -4,7 +4,7 @@ If you love markdown, you know its power. Scratch out your thoughts with MD.
 
 ## Demo
 
-The site is live [Here](http://snote.vercel.app)
+The site is live [Here](https://snote-md.vercel.app/)
 
 ## Installation
 
