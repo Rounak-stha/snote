@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 // Initialize Splitbee
-splitbee.init();
+splitbee.init({ token: process.env.splitbee_token });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
