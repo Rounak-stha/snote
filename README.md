@@ -5,8 +5,8 @@ If you love markdown, you know its power. Scratch out your thoughts with MD.
 ## Demo
 
 The site is live [Here](https://snote-md.vercel.app/)
-![image](https://user-images.githubusercontent.com/66557682/226693147-423db13e-62bc-4238-a625-cc4d9ccd2ed2.png)
 
+![image](https://user-images.githubusercontent.com/66557682/226693147-423db13e-62bc-4238-a625-cc4d9ccd2ed2.png)
 
 ## Installation
 
