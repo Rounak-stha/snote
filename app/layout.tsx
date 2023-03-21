@@ -1,5 +1,4 @@
 import { Roboto_Mono } from 'next/font/google';
-import splitbee from '@splitbee/web';
 import './globals.css';
 
 const robotoMono = Roboto_Mono({
@@ -11,9 +10,6 @@ export const metadata = {
     title: 'Snote',
     description: 'Create Your Short Notes'
 };
-
-// Initialize Splitbee
-splitbee.init({ token: process.env.splitbee_token });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
