@@ -1,17 +1,16 @@
-import { useRef, useState } from 'react'
+// Type
+import type { SnoteData } from '@/lib/idb'
+import type { NoteActionToIconMap, SnoteActionsType } from './NotesTypes'
 
+import { useRef, useState } from 'react'
 import IconButton from '@/components/IconButton'
 import HTMLPreview from '@/components/HTMLPreview'
 import ArchiveIcon from '@/Icons/ArchiveIcon'
 import DeleteIcon from '@/Icons/DeleteIcon'
 import EditIcon from '@/Icons/EditIcon'
-import checkOverflow from '@/lib/checkOverflow'
-
-// Type
-import type { SnoteData } from '@/lib/idb'
-import type { NoteActionToIconMap, SnoteActionsType } from './NotesTypes'
 import DownIcon from '@/Icons/DownIcon'
 import UpIcon from '@/Icons/UpIcon'
+import useCheckOverflow from '@/lib/useCheckOverflow'
 
 const IconMap: NoteActionToIconMap = {
     edit: EditIcon,
@@ -23,7 +22,7 @@ const snoteActionNames = Object.keys(IconMap)
 
 export default function Note({ snote, snoteActions }: { snote: SnoteData; snoteActions: SnoteActionsType }) {
     const noteContainer = useRef<HTMLDivElement | null>(null)
-    const noteOverflows = checkOverflow(noteContainer)
+    const noteOverflows = useCheckOverflow(noteContainer)
     const [noteExpanded, setNoteExpanded] = useState(false)
     return (
         <div
